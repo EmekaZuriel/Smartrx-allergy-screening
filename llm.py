@@ -96,7 +96,7 @@ class LLM:
     @staticmethod
     def _get_model() -> ChatGoogleGenerativeAI:
         if LLM._model is None:
-            api_key = os.getenv("GEMINI_API_KEY", "AIzaSyCTEp7yW5-NQCKMME3ydl4eif-d3ZCGC7E")
+            api_key = os.getenv("GEMINI_API_KEY")
 
             if not api_key:
                 try:
