@@ -4,16 +4,28 @@ import psycopg2
 import psycopg2.extras
 import os
 
+def _get_connection_string() -> str:
+    """Read the DB connection string from st.secrets (Streamlit Cloud)
+    or fall back to the NEON_DB_CONNECTION_STRING environment variable."""
+    try:
+        import streamlit as st
+        return st.secrets["NEON_DB_CONNECTION_STRING"]
+    except Exception:
+        pass
+    conn_str = os.getenv("NEON_DB_CONNECTION_STRING")
+    if not conn_str:
+        raise ValueError(
+            "Database connection string not found. "
+            "Set NEON_DB_CONNECTION_STRING in Streamlit secrets or as an environment variable."
+        )
+    return conn_str
+    
 class Database:
     CONNECTION = None
 
     @staticmethod
     def _connect():
-        conn_str = os.getenv(
-            'NEON_DB_CONNECTION_STRING',
-           
-        )
-        Database.CONNECTION = psycopg2.connect(conn_str)
+        Database.CONNECTION = psycopg2.connect(_get_connection_string())
 
     @staticmethod
     def ensure_connection():
