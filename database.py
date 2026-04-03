@@ -11,7 +11,7 @@ class Database:
     def _connect():
         conn_str = os.getenv(
             'NEON_DB_CONNECTION_STRING',
-            "postgresql://neondb_owner:npg_mOYw2eQxMHs7@ep-shiny-scene-aby9kf9l-pooler.eu-west-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+           
         )
         Database.CONNECTION = psycopg2.connect(conn_str)
 
